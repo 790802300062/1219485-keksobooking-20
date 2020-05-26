@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Вячеслав Новосёлов](https://up.htmlacademy.ru/javascript/20/user/1219485).
-* Наставник: `Неизвестно`.
+* Наставник: [Артём Макаров](https://up.htmlacademy.ru/javascript/20/user/429879).
 
 ---
 
