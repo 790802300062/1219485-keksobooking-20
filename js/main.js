@@ -52,7 +52,7 @@ function createAd(i) {
       'avatar': getAvatarUrl(i)
     },
     'offer': {
-      'title': 'Заголовок объявления',
+      'title': getRandomElement(adAttributes.TITLES),
       'address': addressCoordinates,
       'price': getRandomNumber(adAttributes.PRICE_MIN, adAttributes.PRICE_MAX),
       'type': getRandomElement(adAttributes.TYPES),
