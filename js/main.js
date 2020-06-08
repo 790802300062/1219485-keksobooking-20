@@ -1,7 +1,7 @@
 'use strict';
 
 var ADS_COUNT = 8;
-var MIN_Y =  130;
+var MIN_Y = 130;
 var MAX_Y = 630;
 var PRICE_MIN = 1000;
 var PRICE_MAX = 1000000;
