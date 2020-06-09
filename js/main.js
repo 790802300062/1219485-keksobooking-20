@@ -160,8 +160,7 @@ var createCard = function (adv) {
 
   for (var i = 0; i < adv.offer.features.length; i++) {
     var featureItem = document.createElement('li');
-    featureItem.classList.add('popup__feature');
-    featureItem.classList.add('popup__feature--' + adv.offer.features[i]);
+    featureItem.classList.add('popup__feature', 'popup__feature--' + adv.offer.features[i]);
     newCard.querySelector('.popup__features').append(featureItem);
   }
 
