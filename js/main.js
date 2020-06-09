@@ -38,14 +38,6 @@ var FEATURES = ['wifi',
   'washer',
   'elevator',
   'conditioner'];
-var FEATURES_CLASSES = {
-  'wifi': 'popup__feature--wifi',
-  'dishwasher': 'popup__feature--dishwasher',
-  'parking': 'popup__feature--parking',
-  'washer': 'popup__feature--washer',
-  'elevator': 'popup__feature--elevator',
-  'conditioner': 'popup__feature--conditioner'
-};
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -158,7 +150,7 @@ var createCard = function (adv) {
 
   for (var i = 0; i < [adv.offer.features].length; i++) {
     var featureItem = document.createElement('li');
-    featureItem.classList.add(FEATURES_CLASSES[adv.offer.features[i]]);
+    featureItem.classList.add('popup__feature--' + [adv.offer.features][i]);
     newCard.querySelector('.popup__features').append(featureItem);
   }
 
