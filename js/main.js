@@ -148,13 +148,13 @@ var createCard = function (adv) {
   newCard.querySelector('.popup__photos').innerHTML = '';
   newCard.querySelector('.popup__avatar').src = adv.author.avatar;
 
-  for (var i = 0; i < adv.offer.features.length; i++) {
+  for (var i = 0; i < [adv.offer.features].length; i++) {
     var featureItem = document.createElement('li');
-    featureItem.textContent = adv.offer.features[i];
+    featureItem.classList.add('popup__feature--wifi');
     newCard.querySelector('.popup__features').append(featureItem);
   }
 
-  for (i = 0; i < adv.offer.photos.length; i++) {
+  for (i = 0; i < [adv.offer.photos].length; i++) {
     var newPhoto = document.createElement('img');
     newPhoto.src = adv.offer.photos[i];
     newPhoto.width = 45;
