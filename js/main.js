@@ -63,9 +63,9 @@ function createAdvertisement(count) {
       'guests': getRandomNumber(GUESTS_COUNT_MIN, GUESTS_COUNT_MAX),
       'checkin': getRandomElement(CHECKINS),
       'checkout': getRandomElement(CHECKOUTS),
-      'features': getRandomElement(FEATURES),
+      'features': getRandomArray(FEATURES),
       'description': 'Очень красивая квартира. Рядом много достопримечательностей',
-      'photos': getRandomElement(PHOTOS),
+      'photos': getRandomArray(PHOTOS),
     },
     'location': {
       'x': locationX,
@@ -74,6 +74,16 @@ function createAdvertisement(count) {
   };
 
   return advert;
+}
+
+function getRandomArray(arr) {
+  var itemsCount = getRandomNumber(1, arr.length);
+  var items = [];
+  for (var i = 0; i < itemsCount; i++) {
+    items.push(arr[i]);
+  }
+
+  return items;
 }
 
 function getAvatarCount(count) {
@@ -148,13 +158,14 @@ var createCard = function (adv) {
   newCard.querySelector('.popup__photos').innerHTML = '';
   newCard.querySelector('.popup__avatar').src = adv.author.avatar;
 
-  for (var i = 0; i < [adv.offer.features].length; i++) {
+  for (var i = 0; i < adv.offer.features.length; i++) {
     var featureItem = document.createElement('li');
-    featureItem.classList.add('popup__feature--' + [adv.offer.features][i]);
+    featureItem.classList.add('popup__feature');
+    featureItem.classList.add('popup__feature--' + adv.offer.features[i]);
     newCard.querySelector('.popup__features').append(featureItem);
   }
 
-  for (i = 0; i < [adv.offer.photos].length; i++) {
+  for (i = 0; i < adv.offer.photos.length; i++) {
     var newPhoto = document.createElement('img');
     newPhoto.src = adv.offer.photos[i];
     newPhoto.width = 45;
