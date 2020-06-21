@@ -1,19 +1,7 @@
 'use strict';
 
-var ENTER_KEYCODE = 13;
-var MAIN_PIN_SIZES = {
-  width: 40,
-  height: 44
-};
 var ADS_COUNT = 8;
-var MIN_Y = 130;
-var MAX_Y = 630;
-var PRICE_MIN = 1000;
-var PRICE_MAX = 1000000;
-var ROOM_COUNT_MIN = 1;
-var ROOM_COUNT_MAX = 5;
-var GUESTS_COUNT_MIN = 1;
-var GUESTS_COUNT_MAX = 10;
+var MOUSE_LEFT_BUTTON = 1;
 var TITLES = ['Большая уютная квартира',
   'Маленькая неуютная квартира',
   'Огромный прекрасный дворец',
@@ -26,11 +14,6 @@ var TYPES = ['palace',
   'flat',
   'house',
   'bungalo'];
-/*  var TYPES_IN_RUSSIAN = {
-  'palace': 'Дворец',
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'bungalo': 'Бунгало'};*/
 var CHECKINS = ['12:00',
   '13:00',
   '14:00'];
@@ -46,20 +29,76 @@ var FEATURES = ['wifi',
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var PIN_GAP_X = 50;
-var PIN_GAP_Y = 70;
+var Key = {
+  ENTER: 'Enter'
+};
+var MainPinSize = {
+  WIDTH: 40,
+  HEIGHT: 44
+};
+var RandomNumber = {
+  MIN: 130,
+  MAX: 630
+};
+var RoomPrice = {
+  MIN: 1000,
+  MAX: 1000000
+};
+var RoomCount = {
+  MIN: 1,
+  MAX: 5
+};
+var GuestsCount = {
+  MIN: 1,
+  MAX: 10
+};
+var PinGap = {
+  X: 50,
+  Y: 70
+};
+/* var mapTypesToRussian = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'};*/
+
 var map = document.querySelector('.map');
 var mapPinButton = document.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var addressInput = adForm.querySelector('#address');
-var mapFilter = document.querySelector('.map__filters');
-var mapFilterSelects = mapFilter.querySelectorAll('select');
+var mapFiltersElement = document.querySelector('.map__filters');
+var mapFilterSelects = mapFiltersElement.querySelectorAll('select');
 var offsetWidth = document.querySelector('.map__pins').offsetWidth;
 
-var changeAccessibility = function (list) {
-  for (var i = 0; i < list.length; i++) {
-    list[i].disabled = !list[i].disabled;
+function getRandomArray(items) {
+  var itemsCount = getRandomNumber(1, items.length);
+  var randomNumbers = [];
+  for (var i = 0; i < itemsCount; i++) {
+    randomNumbers.push(items[i]);
+  }
+
+  return randomNumbers;
+}
+
+function getAvatarCount(avatarNumber) {
+  avatarNumber = '0' + (avatarNumber + 1);
+  return 'img/avatars/user' + avatarNumber + '.png';
+}
+
+function getRandomNumber(min, max) {
+  var rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+}
+
+function getRandomElement(array) {
+  var randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
+
+var changeAccessibility = function (controls) {
+  for (var i = 0; i < controls.length; i++) {
+    controls[i].disabled = !controls[i].disabled;
   }
 };
 
@@ -67,7 +106,7 @@ changeAccessibility(adFormFieldsets);
 changeAccessibility(mapFilterSelects);
 
 var onMapPinPress = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE || evt.which === 1) {
+  if (evt.keyCode === Key.ENTER || evt.which === MOUSE_LEFT_BUTTON) {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
 
@@ -83,24 +122,24 @@ var onMapPinPress = function (evt) {
 mapPinButton.addEventListener('mousedown', onMapPinPress);
 mapPinButton.addEventListener('keydown', onMapPinPress);
 
-addressInput.value = Math.round(mapPinButton.offsetLeft - (MAIN_PIN_SIZES.width / 2))
-                    + ', ' + Math.round(mapPinButton.offsetTop - (MAIN_PIN_SIZES.height / 2));
+addressInput.value = Math.round(mapPinButton.offsetLeft - (MainPinSize.WIDTH / 2))
+                    + ', ' + Math.round(mapPinButton.offsetTop - (MainPinSize.HEIGHT / 2));
 
-function createAdvertisement(count) {
+function createAdvertisement(avatarNumber) {
   var locationX = getRandomNumber(0, offsetWidth);
-  var locationY = getRandomNumber(MIN_Y, MAX_Y);
+  var locationY = getRandomNumber(RandomNumber.MIN, RandomNumber.MAX);
 
   var advert = {
     'author': {
-      'avatar': getAvatarCount(count)
+      'avatar': getAvatarCount(avatarNumber)
     },
     'offer': {
       'title': getRandomElement(TITLES),
       'address': locationX + ', ' + locationY,
-      'price': getRandomNumber(PRICE_MIN, PRICE_MAX),
+      'price': getRandomNumber(RoomPrice.MIN, RoomPrice.MAX),
       'type': getRandomElement(TYPES),
-      'rooms': getRandomNumber(ROOM_COUNT_MIN, ROOM_COUNT_MAX),
-      'guests': getRandomNumber(GUESTS_COUNT_MIN, GUESTS_COUNT_MAX),
+      'rooms': getRandomNumber(RoomCount.MIN, RoomCount.MAXOOM_COUNT_MAX),
+      'guests': getRandomNumber(GuestsCount.MIN, GuestsCount.MAX),
       'checkin': getRandomElement(CHECKINS),
       'checkout': getRandomElement(CHECKOUTS),
       'features': getRandomArray(FEATURES),
@@ -114,31 +153,6 @@ function createAdvertisement(count) {
   };
 
   return advert;
-}
-
-function getRandomArray(arr) {
-  var itemsCount = getRandomNumber(1, arr.length);
-  var items = [];
-  for (var i = 0; i < itemsCount; i++) {
-    items.push(arr[i]);
-  }
-
-  return items;
-}
-
-function getAvatarCount(count) {
-  var avatarNumber = '0' + (count + 1);
-  return 'img/avatars/user' + avatarNumber + '.png';
-}
-
-function getRandomNumber(min, max) {
-  var rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand);
-}
-
-function getRandomElement(array) {
-  var randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
 }
 
 function createAds() {
@@ -159,8 +173,8 @@ var pin = document.querySelector('#pin')
 function createPin(adv) {
   var mapPin = pin.cloneNode(true);
 
-  mapPin.style.left = adv.location.x - PIN_GAP_X + 'px';
-  mapPin.style.top = adv.location.y - PIN_GAP_Y + 'px';
+  mapPin.style.left = adv.location.x - PinGap.X + 'px';
+  mapPin.style.top = adv.location.y - PinGap.Y + 'px';
   mapPin.querySelector('img').alt = adv.offer.title;
   mapPin.querySelector('img').src = adv.author.avatar;
 
@@ -217,18 +231,25 @@ function renderMapPins() {
 var roomNumberInput = document.querySelector('#room_number');
 var capacityInput = document.querySelector('#capacity');
 
-var checkCapacity = function () {
+var onInputChange = function () {
   if (roomNumberInput.value === '100' && capacityInput.value !== '0') {
     capacityInput.setCustomValidity('Не для гостей!');
-  } else if (capacityInput.value === '0' && roomNumberInput.value !== '100') {
-    capacityInput.setCustomValidity('Укажите количество гостей!');
-  } else if (+capacityInput.value > +roomNumberInput.value) {
-    capacityInput.setCustomValidity('Слишком много гостей для этого количества комнат!');
-  } else {
-    capacityInput.setCustomValidity('');
+    return;
   }
+
+  if (capacityInput.value === '0' && roomNumberInput.value !== '100') {
+    capacityInput.setCustomValidity('Укажите количество гостей!');
+    return;
+  }
+
+  if (+capacityInput.value > +roomNumberInput.value) {
+    capacityInput.setCustomValidity('Слишком много гостей для этого количества комнат!');
+    return;
+  }
+
+  capacityInput.setCustomValidity('');
 };
 
-capacityInput.addEventListener('change', checkCapacity);
+capacityInput.addEventListener('change', onInputChange);
 
-roomNumberInput.addEventListener('change', checkCapacity);
+roomNumberInput.addEventListener('change', onInputChange);
