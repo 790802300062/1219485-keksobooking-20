@@ -238,7 +238,6 @@ var onMapPinClick = function (evt) {
   if (currentPin !== null || evt.keyCode === Key.ENTER) {
     var pinId = advMapPins.indexOf(currentPin);
     var currentAd = createCard(ads[pinId]);
-    console.log(currentAd);
     document.querySelector('.map__filters-container').before(currentAd);
   }
 };
