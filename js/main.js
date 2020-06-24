@@ -56,14 +56,15 @@ var PinGap = {
   X: 50,
   Y: 70
 };
-/* var mapTypesToRussian = {
+var mapTypesToRussian = {
   'palace': 'Дворец',
   'flat': 'Квартира',
   'house': 'Дом',
-  'bungalo': 'Бунгало'};*/
+  'bungalo': 'Бунгало'};
 
 var map = document.querySelector('.map');
 var mapPinButton = document.querySelector('.map__pin--main');
+var advMapPins = document.querySelectorAll('.map__pin');
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var addressInput = adForm.querySelector('#address');
@@ -164,7 +165,7 @@ function createAds() {
   return adverts;
 }
 
-//  var ads = createAds();
+var ads = createAds();
 
 var pin = document.querySelector('#pin')
           .content
@@ -190,17 +191,17 @@ function renderMapPins() {
   document.querySelector('.map__pins').appendChild(fragment);
 }
 
-/*  var mapCard = document.querySelector('#card')
+var mapCard = document.querySelector('#card')
               .content
-              .querySelector('.map__card');*/
+              .querySelector('.map__card');
 
-/*  var createCard = function (adv) {
+var createCard = function (adv) {
   var newCard = mapCard.cloneNode(true);
 
   newCard.querySelector('.popup__title').textContent = adv.offer.title;
   newCard.querySelector('.popup__text--address').textContent = adv.offer.address;
   newCard.querySelector('.popup__text--price').textContent = adv.offer.price + '₽/ночь';
-  newCard.querySelector('.popup__type').textContent = TYPES_IN_RUSSIAN[adv.offer.type];
+  newCard.querySelector('.popup__type').textContent = mapTypesToRussian[adv.offer.type];
   newCard.querySelector('.popup__text--capacity').textContent = adv.offer.rooms + ' комнаты для ' + adv.offer.guests + ' гостей';
   newCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + adv.offer.checkin + ', выезд до ' + adv.offer.checkout;
   newCard.querySelector('.popup__features').innerHTML = '';
@@ -223,10 +224,26 @@ function renderMapPins() {
   }
 
   return newCard;
-};*/
+};
 
-//  var currentAd = createCard(ads[0]);
+//  var currentAd = createCard(ads[1]);
 //  document.querySelector('.map__filters-container').before(currentAd);
+
+var adsContainer = document.querySelector('.map__pins');
+adsContainer.addEventListener('click', onMapPinClick);
+
+
+var onMapPinClick = function (evt) {
+  var currentPin = evt.target.closest('.map__pin:not(.map__pin--main)');
+  if (currentPin !== null || evt.keyCode === Key.ENTER) {
+    var pinId = advMapPins.indexOf(currentPin);
+    var currentAd = createCard(ads[pinId]);
+    console.log(currentAd);
+    document.querySelector('.map__filters-container').before(currentAd);
+  }
+};
+
+
 
 var roomNumberInput = document.querySelector('#room_number');
 var capacityInput = document.querySelector('#capacity');
