@@ -249,7 +249,7 @@ var showAd = function (pinNode) {
   if (popup) {
     closePopup(popup);
   }
-  filtersContainer.before(createAd(ads[index]));
+  filtersContainer.before(createCard(ads[index]));
   popup = document.querySelector('.popup');
   var closePopupButton = document.querySelector('.popup__close');
   closePopupButton.addEventListener('click', function () {
