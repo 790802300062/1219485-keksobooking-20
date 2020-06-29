@@ -248,7 +248,8 @@ var showAd = function (pinNode) {
   var popup = document.querySelector('.popup');
   if (popup) {
     closePopup(popup);
-  }
+  };
+
   filtersContainer.before(createCard(ads[index]));
   popup = document.querySelector('.popup');
   var closePopupButton = document.querySelector('.popup__close');
@@ -260,7 +261,7 @@ var showAd = function (pinNode) {
 var pins = createPinsList();
 
 var onMapPinClick = function (evt) {
-  var currentPin = evt.target; //.closest('.map__pin:not(.map__pin--main)');
+  var target = evt.target; //.closest('.map__pin:not(.map__pin--main)');
   if (target.classList.contains('map__pin--main') ||
       target.parentNode.classList.contains('map__pin--main')) {
 
