@@ -228,10 +228,59 @@ var createCard = function (adv) {
 //  var currentAd = createCard(ads[1]);
 //  document.querySelector('.map__filters-container').before(currentAd);
 
-/*var onMapPinClick = function (evt) {
-  var currentPin = evt.target.closest('.map__pin:not(.map__pin--main)');
+var pinFragment = document.createDocumentFragment();
+var filtersContainer = document.querySelector('.map__filters-container');
 
-  if (currentPin !== null || evt.keyCode === Key.ENTER) {
+var createPinsList = function () {
+  var pins = [];
+  for (var i=0; i < ads.length; i++) {
+    pins.push(createPin(ads[i]));
+    pinFragment.appendChild(pins[i]);
+  }
+};
+
+var closePopup = function (popup) {
+  map.removeChild(popup);
+};
+
+var showAd = function (pinNode) {
+  var index = pins.indexOf(pinNode);
+  var popup = document.querySelector('.popup');
+  if (popup) {
+    closePopup(popup);
+  }
+  filtersContainer.before(createAd(ads[index]));
+  popup = document.querySelector('.popup');
+  var closePopupButton = document.querySelector('.popup__close');
+  closePopupButton.addEventListener('click', function () {
+    closePopup(popup);
+  });
+};
+
+var pins = createPinsList();
+
+var onMapPinClick = function (evt) {
+  var currentPin = evt.target; //.closest('.map__pin:not(.map__pin--main)');
+  if (target.classList.contains('map__pin--main') ||
+      target.parentNode.classList.contains('map__pin--main')) {
+
+    return;
+  };
+
+  if (target.className === 'map__pin') {
+    showAd(target);
+
+    return;
+  }
+
+  if (target.parentNode.className === 'map__pin') {
+    showAd(target.parentNode);
+
+    return;
+  }
+};
+
+  /*if (currentPin !== null || evt.keyCode === Key.ENTER) {
     var pinId = document.querySelectorAll('.map__pin');
 
     for (var i=0; i < pinId.length; i++) {
@@ -241,13 +290,12 @@ var createCard = function (adv) {
     var currentAd = createCard(ads[pinIdIndex]);
   }
   document.querySelector('.map__filters-container').before(currentAd);
-};*/
+};
 
-var advMapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-console.log(advMapPins);
-/*var pinElements = [];
+var advMapPins = document.querySelector('.map__pins');
+advMapPins.addEventListener('click', onMapPinClick);*/
 
-for (var i=0; i < advMapPins.length; i++) {
+/*for (var i=0; i < advMapPins.length; i++) {
   pinElements.push(advMapPins[i]);
   advMapPins[i].addEventListener('click', function(evt) {
      var advMapPinIndex = pinElements.indexOf(evt.target);
@@ -255,7 +303,7 @@ for (var i=0; i < advMapPins.length; i++) {
 
     return advMapPinIndex;
   })
-}
+}*/
 //advMapPins.addEventListener('click', onMapPinClick);*/
 
 
