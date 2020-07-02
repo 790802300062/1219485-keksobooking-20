@@ -45,7 +45,7 @@
   };
 
   var onCardEscapePress = function (evt) {
-    if (evt.keyCode === window.data.KeyCode.ESCAPE) {
+    if (evt.keyCode === window.const.KeyCode.ESCAPE) {
       closeCard();
     }
   };

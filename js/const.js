@@ -4,8 +4,8 @@
 
   var ADS_COUNT = 8;
   var MainPinSize = {
-    WIDTH: 40,
-    HEIGHT: 44
+    WIDTH: 65,
+    HEIGHT: 84
   };
   var MOUSE_LEFT_BUTTON = 1;
   var KeyCode = {
@@ -13,7 +13,7 @@
     ESCAPE: 27
   };
 
-  window.data = {
+  window.const = {
     ADS_COUNT: ADS_COUNT,
     MainPinSize: MainPinSize,
     MOUSE_LEFT_BUTTON: MOUSE_LEFT_BUTTON,

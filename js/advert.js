@@ -49,7 +49,7 @@
     MIN: 1,
     MAX: 10
   };
-  var RandomNumber = {
+  var CoordsY = {
     MIN: 130,
     MAX: 630
   };
@@ -63,7 +63,7 @@
 
   var createAdvertisement = function (avatarNumber) {
     var locationX = window.utils.getRandomNumber(0, offsetWidth);
-    var locationY = window.utils.getRandomNumber(RandomNumber.MIN, RandomNumber.MAX);
+    var locationY = window.utils.getRandomNumber(CoordsY.MIN, CoordsY.MAX);
 
     var advert = {
       'author': {
@@ -93,7 +93,7 @@
 
   function createAds() {
     var adverts = [];
-    for (var i = 0; i < window.data.ADS_COUNT; i++) {
+    for (var i = 0; i < window.const.ADS_COUNT; i++) {
       adverts.push(createAdvertisement(i));
     }
 
@@ -104,6 +104,8 @@
 
   window.advert = {
     ads: ads,
-    createAds: createAds
+    createAds: createAds,
+    CoordsY: CoordsY,
+    offsetWidth: offsetWidth
   };
 })();
