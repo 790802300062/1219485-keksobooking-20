@@ -18,12 +18,15 @@
   var renderMapPins = function () {
     var fragment = document.createDocumentFragment();
     var createAdv = window.advert.createAds();
-    for (var i = 0; i < window.data.ADS_COUNT; i++) {
+    for (var i = 0; i < window.const.ADS_COUNT; i++) {
       fragment.appendChild(createPin(createAdv[i]));
     }
 
     document.querySelector('.map__pins').appendChild(fragment);
   };
+
+  addressInput.value = Math.round(mapPinButton.offsetLeft + (window.const.MainPinSize.WIDTH / 2))
+                      + ', ' + Math.round(mapPinButton.offsetTop + (window.const.MainPinSize.HEIGHT / 2));
 
   var changeAccessibility = function (controls) {
     controls.forEach(function (item) {
@@ -35,7 +38,7 @@
   changeAccessibility(mapFilterSelects);
 
   var onMapPinPress = function (evt) {
-    if (evt.keyCode === window.data.KeyCode.ENTER || evt.which === window.data.MOUSE_LEFT_BUTTON) {
+    if (evt.keyCode === window.const.KeyCode.ENTER || evt.which === window.const.MOUSE_LEFT_BUTTON) {
       map.classList.remove('map--faded');
       adForm.classList.remove('ad-form--disabled');
 
@@ -46,13 +49,15 @@
       mapPinButton.removeEventListener('keydown', onMapPinPress);
       renderMapPins();
     }
+
+    addressInput.value = Math.round(mapPinButton.offsetLeft + (window.const.MainPinSize.WIDTH / 2))
+                         + ', ' + Math.round(mapPinButton.offsetTop + window.const.MainPinSize.HEIGHT
+                         + window.const.MainPinSize.NEEDLE);
   };
 
   mapPinButton.addEventListener('mousedown', onMapPinPress);
   mapPinButton.addEventListener('keydown', onMapPinPress);
 
-  addressInput.value = Math.round(mapPinButton.offsetLeft - (window.data.MainPinSize.WIDTH / 2))
-                      + ', ' + Math.round(mapPinButton.offsetTop - (window.data.MainPinSize.HEIGHT / 2));
   var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
@@ -85,9 +90,11 @@
 
   window.pin = {
     map: map,
+    mapPinButton: mapPinButton,
     renderMapPins: renderMapPins,
     filtersContainer: filtersContainer,
-    pins: pins
+    pins: pins,
+    addressInput: addressInput
   };
 })();
 
