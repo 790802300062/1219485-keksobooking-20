@@ -28,7 +28,7 @@
            + Math.round(window.const.MainPinSize.WIDTH / 2),
 
         y: ((window.pin.mapPinButton.offsetTop - shift.y)
-           + window.const.MainPinSize.HEIGHT),
+           + window.const.MainPinSize.HEIGHT + window.const.MainPinSize.NEEDLE),
       };
 
       if (pinCoords.y >= window.advert.CoordsY.MIN &&

@@ -4,8 +4,9 @@
 
   var ADS_COUNT = 8;
   var MainPinSize = {
-    WIDTH: 65,
-    HEIGHT: 84
+    WIDTH: 62,
+    HEIGHT: 62,
+    NEEDLE: 22
   };
   var MOUSE_LEFT_BUTTON = 1;
   var KeyCode = {

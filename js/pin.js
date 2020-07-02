@@ -25,6 +25,9 @@
     document.querySelector('.map__pins').appendChild(fragment);
   };
 
+  addressInput.value = Math.round(mapPinButton.offsetLeft + (window.const.MainPinSize.WIDTH / 2))
+                      + ', ' + Math.round(mapPinButton.offsetTop + (window.const.MainPinSize.HEIGHT / 2));
+
   var changeAccessibility = function (controls) {
     controls.forEach(function (item) {
       item.disabled = !item.disabled;
@@ -46,13 +49,14 @@
       mapPinButton.removeEventListener('keydown', onMapPinPress);
       renderMapPins();
     }
+
+    addressInput.value = Math.round(mapPinButton.offsetLeft + (window.const.MainPinSize.WIDTH / 2))
+                         + ', ' + Math.round(mapPinButton.offsetTop + window.const.MainPinSize.HEIGHT
+                         + window.const.MainPinSize.NEEDLE);
   };
 
   mapPinButton.addEventListener('mousedown', onMapPinPress);
   mapPinButton.addEventListener('keydown', onMapPinPress);
-
-  addressInput.value = Math.round(mapPinButton.offsetLeft + (window.const.MainPinSize.WIDTH / 2))
-                      + ', ' + Math.round(mapPinButton.offsetTop + (window.const.MainPinSize.HEIGHT));
 
   var pinTemplate = document.querySelector('#pin')
   .content
