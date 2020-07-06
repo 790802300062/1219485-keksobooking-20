@@ -3,8 +3,8 @@
 (function () {
 
   var PinGap = {
-    X: 50,
-    Y: 70
+    X: 64,
+    Y: 64
   };
 
   var adForm = document.querySelector('.ad-form');
@@ -15,15 +15,32 @@
   var mapFiltersElement = document.querySelector('.map__filters');
   var mapFilterSelects = mapFiltersElement.querySelectorAll('select');
 
-  var renderMapPins = function () {
+  var pinTemplate = document.querySelector('#pin')
+  .content
+  .querySelector('.map__pin');
+
+  var createPin = function (serverAds) {
+    var mapPin = pinTemplate.cloneNode(true);
+
+    mapPin.style.left = serverAds.location.x - PinGap.X + 'px';
+    mapPin.style.top = serverAds.location.y - PinGap.Y + 'px';
+    mapPin.querySelector('img').alt = serverAds.offer.title;
+    mapPin.querySelector('img').src = serverAds.author.avatar;
+
+    return mapPin;
+  };
+
+  var renderMapPins = function (serverAds) {
     var fragment = document.createDocumentFragment();
-    var createAdv = window.advert.createAds();
-    for (var i = 0; i < window.const.ADS_COUNT; i++) {
-      fragment.appendChild(createPin(createAdv[i]));
+
+    for (var i = 0; i < serverAds.length; i++) {
+      fragment.appendChild(createPin(serverAds[i]));
     }
 
     document.querySelector('.map__pins').appendChild(fragment);
   };
+
+  var adsContainer = [];
 
   addressInput.value = Math.round(mapPinButton.offsetLeft + (window.const.MainPinSize.WIDTH / 2))
                       + ', ' + Math.round(mapPinButton.offsetTop + (window.const.MainPinSize.HEIGHT / 2));
@@ -33,6 +50,20 @@
       item.disabled = !item.disabled;
     });
   };
+
+  var pinFragment = document.createDocumentFragment();
+
+  var insertPins = function (serverAds) {
+    var pins = [];
+    for (var i = 0; i < serverAds.length; i++) {
+      pins.push(createPin(serverAds[i]));
+      pinFragment.appendChild(pins[i]);
+    }
+
+    return pins;
+  };
+
+  var pins = insertPins(adsContainer);
 
   changeAccessibility(adFormFieldsets);
   changeAccessibility(mapFilterSelects);
@@ -47,7 +78,7 @@
 
       mapPinButton.removeEventListener('mousedown', onMapPinPress);
       mapPinButton.removeEventListener('keydown', onMapPinPress);
-      renderMapPins();
+
     }
 
     addressInput.value = Math.round(mapPinButton.offsetLeft + (window.const.MainPinSize.WIDTH / 2))
@@ -58,35 +89,7 @@
   mapPinButton.addEventListener('mousedown', onMapPinPress);
   mapPinButton.addEventListener('keydown', onMapPinPress);
 
-  var pinTemplate = document.querySelector('#pin')
-  .content
-  .querySelector('.map__pin');
-
-  var createPin = function (adv) {
-    var mapPin = pinTemplate.cloneNode(true);
-
-    mapPin.style.left = adv.location.x - PinGap.X + 'px';
-    mapPin.style.top = adv.location.y - PinGap.Y + 'px';
-    mapPin.querySelector('img').alt = adv.offer.title;
-    mapPin.querySelector('img').src = adv.author.avatar;
-
-    return mapPin;
-  };
-
-  var pinFragment = document.createDocumentFragment();
   var filtersContainer = document.querySelector('.map__filters-container');
-
-  var insertPins = function () {
-    var pins = [];
-    for (var i = 0; i < window.advert.ads.length; i++) {
-      pins.push(createPin(window.advert.ads[i]));
-      pinFragment.appendChild(pins[i]);
-    }
-
-    return pins;
-  };
-
-  var pins = insertPins();
 
   window.pin = {
     map: map,
@@ -94,7 +97,8 @@
     renderMapPins: renderMapPins,
     filtersContainer: filtersContainer,
     pins: pins,
-    addressInput: addressInput
+    addressInput: addressInput,
+    adsContainer: adsContainer
   };
 })();
 

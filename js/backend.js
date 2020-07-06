@@ -16,7 +16,7 @@
     500: 'Ошибка сервера'
   };
 
-  var errorHandler = function (error) {
+  var onErrorAlert = function (error) {
     return error;
   };
 
@@ -27,9 +27,9 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === SERVER_CODE_OK) {
         onSuccess(xhr.response);
-      } else {
-        onError(ErrorStatus[xhr.status]);
+        return;
       }
+      onError(ErrorStatus[xhr.status]);
     });
 
     xhr.addEventListener('error', function () {
@@ -46,7 +46,7 @@
 
   window.backend = {
     createXhr: createXhr,
-    onError: onError
+    onErrorAlert: onErrorAlert
   };
 
 })();
