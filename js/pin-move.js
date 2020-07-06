@@ -2,6 +2,13 @@
 
 (function () {
 
+  var CoordsY = {
+    MIN: 130,
+    MAX: 630
+  };
+
+  var offsetWidth = document.querySelector('.map__pins').offsetWidth;
+
   var onMainPinMove = function (evt) {
     evt.preventDefault();
 
@@ -31,24 +38,24 @@
            + window.const.MainPinSize.HEIGHT + window.const.MainPinSize.NEEDLE),
       };
 
-      if (pinCoords.y >= window.advert.CoordsY.MIN &&
-          pinCoords.y <= window.advert.CoordsY.MAX &&
+      if (pinCoords.y >= CoordsY.MIN &&
+          pinCoords.y <= CoordsY.MAX &&
           pinCoords.x >= 0 &&
           pinCoords.x <= window.advert.offsetWidth) {
         window.pin.mapPinButton.style.top = (window.pin.mapPinButton.offsetTop - shift.y) + 'px';
         window.pin.mapPinButton.style.left = (window.pin.mapPinButton.offsetLeft - shift.x) + 'px';
       }
 
-      if (pinCoords.x > window.advert.offsetWidth) {
-        pinCoords.x = window.advert.offsetWidth;
+      if (pinCoords.x > offsetWidth) {
+        pinCoords.x = offsetWidth;
       } else if (pinCoords.x < 0) {
         pinCoords.x = 0;
       }
 
-      if (pinCoords.y > window.advert.CoordsY.MAX) {
-        pinCoords.y = window.advert.CoordsY.MAX;
-      } else if (pinCoords.y < window.advert.CoordsY.MIN) {
-        pinCoords.y = window.advert.CoordsY.MIN;
+      if (pinCoords.y > CoordsY.MAX) {
+        pinCoords.y = CoordsY.MAX;
+      } else if (pinCoords.y < CoordsY.MIN) {
+        pinCoords.y = CoordsY.MIN;
       }
 
       window.pin.addressInput.value = pinCoords.x + ', ' + pinCoords.y;
