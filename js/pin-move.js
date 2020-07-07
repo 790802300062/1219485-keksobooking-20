@@ -2,7 +2,7 @@
 
 (function () {
 
-  var CoordsY = {
+  var CoordY = {
     MIN: 130,
     MAX: 630
   };
@@ -30,35 +30,35 @@
         y: moveEvt.clientY,
       };
 
-      var pinCoords = {
-        x: (window.pin.mapPinButton.offsetLeft - shift.x)
+      var pinCoord = {
+        x: (window.map.mapPinButton.offsetLeft - shift.x)
            + Math.round(window.const.MainPinSize.WIDTH / 2),
 
-        y: ((window.pin.mapPinButton.offsetTop - shift.y)
+        y: ((window.map.mapPinButton.offsetTop - shift.y)
            + window.const.MainPinSize.HEIGHT + window.const.MainPinSize.NEEDLE),
       };
 
-      if (pinCoords.y >= CoordsY.MIN &&
-          pinCoords.y <= CoordsY.MAX &&
-          pinCoords.x >= 0 &&
-          pinCoords.x <= window.advert.offsetWidth) {
-        window.pin.mapPinButton.style.top = (window.pin.mapPinButton.offsetTop - shift.y) + 'px';
-        window.pin.mapPinButton.style.left = (window.pin.mapPinButton.offsetLeft - shift.x) + 'px';
+      if (pinCoord.y >= CoordY.MIN &&
+          pinCoord.y <= CoordY.MAX &&
+          pinCoord.x >= 0 &&
+          pinCoord.x <= offsetWidth) {
+        window.map.mapPinButton.style.top = (window.map.mapPinButton.offsetTop - shift.y) + 'px';
+        window.map.mapPinButton.style.left = (window.map.mapPinButton.offsetLeft - shift.x) + 'px';
       }
 
-      if (pinCoords.x > offsetWidth) {
-        pinCoords.x = offsetWidth;
-      } else if (pinCoords.x < 0) {
-        pinCoords.x = 0;
+      if (pinCoord.x > offsetWidth) {
+        pinCoord.x = offsetWidth;
+      } else if (pinCoord.x < 0) {
+        pinCoord.x = 0;
       }
 
-      if (pinCoords.y > CoordsY.MAX) {
-        pinCoords.y = CoordsY.MAX;
-      } else if (pinCoords.y < CoordsY.MIN) {
-        pinCoords.y = CoordsY.MIN;
+      if (pinCoord.y > CoordY.MAX) {
+        pinCoord.y = CoordY.MAX;
+      } else if (pinCoord.y < CoordY.MIN) {
+        pinCoord.y = CoordY.MIN;
       }
 
-      window.pin.addressInput.value = pinCoords.x + ', ' + pinCoords.y;
+      window.map.addressInput.value = pinCoord.x + ', ' + pinCoord.y;
     };
 
     var onMouseUp = function (upEvt) {
@@ -72,5 +72,5 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  window.pin.mapPinButton.addEventListener('mousedown', onMainPinMove);
+  window.map.mapPinButton.addEventListener('mousedown', onMainPinMove);
 })();
