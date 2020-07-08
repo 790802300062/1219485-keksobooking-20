@@ -1,17 +1,24 @@
 'use strict';
 (function () {
 
-  var roomNumberInput = document.querySelector('#room_number');
-  var capacityInput = document.querySelector('#capacity');
+  var minTypePrice = {
+    'palace': 10000,
+    'flat': 1000,
+    'house': 5000,
+    'bungalo': 0
+  };
 
-  var onInputChange = function () {
-    if (roomNumberInput.value === '100' && capacityInput.value !== '0') {
-      capacityInput.setCustomValidity('Не для гостей!');
-      return;
-    }
+  var adForm = document.querySelector('.ad-form');
+  var roomNumberInput = adForm.querySelector('#room_number');
+  var capacityInput = adForm.querySelector('#capacity');
+  var accomodationTypeInput = document.querySelector('#type');
+  var accomodationMinPrice = document.querySelector('#price');
+  var checkinInput = adForm.querySelector('#timein');
+  var checkoutInput = adForm.querySelector('#timeout');
 
-    if (capacityInput.value === '0' && roomNumberInput.value !== '100') {
-      capacityInput.setCustomValidity('Укажите количество гостей!');
+  var checkRoomValidity = function () {
+    if (roomNumberInput.value === 100 && capacityInput.valueguestsValue !== 0) {
+      capacityInput.setCustomValidity('Только вариант размещения "Не для гостей"');
       return;
     }
 
@@ -20,20 +27,12 @@
       return;
     }
 
+    if (capacityInput.value === '0' && roomNumberInput !== '100') {
+      capacityInput.setCustomValidity('Укажите количество гостей!');
+      return;
+    }
+
     capacityInput.setCustomValidity('');
-  };
-
-  capacityInput.addEventListener('change', onInputChange);
-  roomNumberInput.addEventListener('change', onInputChange);
-
-  var accomodationTypeInput = document.querySelector('#type');
-  var accomodationMinPrice = document.querySelector('#price');
-
-  var minTypePrice = {
-    'palace': 10000,
-    'flat': 1000,
-    'house': 5000,
-    'bungalo': 0
   };
 
   var setTypePrice = function () {
@@ -48,13 +47,15 @@
     setTypePrice();
   });
 
-  var checkinInput = document.querySelector('#timein');
-  var checkoutInput = document.querySelector('#timeout');
-
   checkinInput.addEventListener('change', function () {
     checkoutInput.value = checkinInput.value;
   });
+
   checkoutInput.addEventListener('change', function () {
     checkinInput.value = checkoutInput.value;
   });
+
+  window.validation = {
+    checkRoomValidity: checkRoomValidity
+  };
 })();
