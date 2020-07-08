@@ -16,13 +16,13 @@
     return evt.key === window.const.KeyCode.ENTER;
   };
 
-  var onDocumentClick = function (element) {
+  var onClickClose = function (element) {
     document.addEventListener('click', function () {
       element.remove();
     });
   };
 
-  var onDocumentKeydown = function (element) {
+  var onEscPressClose = function (element) {
     document.addEventListener('keydown', function (evt) {
       if (isEscKey(evt)) {
         element.remove();
@@ -34,8 +34,8 @@
     changeAccessibility: changeAccessibility,
     isEscKey: isEscKey,
     isEnterKey: isEnterKey,
-    onDocumentClick: onDocumentClick,
-    onDocumentKeydown: onDocumentKeydown
+    onClickClose: onClickClose,
+    onEscPressClose: onEscPressClose
   };
 })();
 

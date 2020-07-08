@@ -58,8 +58,8 @@
     var successMessage = successTemplate.cloneNode(true);
     main.appendChild(successMessage);
 
-    window.utils.onDocumentClick(successMessage);
-    window.utils.onDocumentKeydown(successMessage);
+    window.utils.onClickClose(successMessage);
+    window.utils.onEscPressClose(successMessage);
   };
 
   var createErrorMessage = function () {
@@ -70,8 +70,8 @@
     var errorMessage = errorTemplate.cloneNode(true);
     main.appendChild(errorMessage);
 
-    window.utils.onDocumentClick(errorMessage);
-    window.utils.onDocumentKeydown(errorMessage);
+    window.utils.onClickClose(errorMessage);
+    window.utils.onEscPressClose(errorMessage);
   };
 
   var onSuccess = function (evt) {
