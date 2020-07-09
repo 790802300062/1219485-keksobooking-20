@@ -15,6 +15,8 @@
     START_LEFT: 570
   };
 
+  var PIN_MAX_AMOUNT = 5;
+
   var fragment = document.createDocumentFragment();
   var mainPin = document.querySelector('.map__pin--main');
   var pinsContainer = document.querySelector('.map__pins');
@@ -63,12 +65,22 @@
       for (var i = 0; i < ads.length; i++) {
         if (ads[i].offer) {
           offers.push(ads[i]);
-          createPin(ads[i]);
-        }
-      }
 
-      pinsContainer.appendChild(fragment);
+          if (i < PIN_MAX_AMOUNT) {
+            createPin(ads[i]);
+          }
+        }
+
+        pinsContainer.appendChild(fragment);
+      }
     });
+  };
+
+  var renderPins = function (advs) {
+    for (var i = 0; i < advs.length; i++) {
+      createPin(advs[i]);
+    }
+    pinsContainer.appendChild(fragment);
   };
 
   pinsContainer.addEventListener('click', onMapPinsContainerClick);
@@ -167,6 +179,7 @@
     moveMainPinToCenter: moveMainPinToCenter,
     getMainPinCoords: getMainPinCoord,
     offers: offers,
-    MainPinSize: MainPinSize
+    MainPinSize: MainPinSize,
+    renderPins: renderPins
   };
 })();

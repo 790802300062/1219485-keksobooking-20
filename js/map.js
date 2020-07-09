@@ -16,6 +16,8 @@
 
       window.utils.changeAccessibility(mapSelects, false);
       window.utils.changeAccessibility(mapFieldsets, false);
+
+      window.filter.activateFilters();
     }
   };
 
@@ -28,6 +30,7 @@
 
       window.pin.removePins();
       window.pin.moveMainPinToCenter();
+
       adFormAddress.value = Math.round(mapPinButton.offsetLeft + (window.pin.MainPinSize.WIDTH / 2))
                             + ', ' + Math.round(mapPinButton.offsetTop + (window.pin.MainPinSize.HEIGHT / 2));
     }
@@ -37,6 +40,6 @@
 
   window.map = {
     enableMap: enableMap,
-    disableMap: disableMap
+    disableMap: disableMap,
   };
 })();
