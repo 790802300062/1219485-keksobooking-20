@@ -9,9 +9,10 @@
     MAX_Y: 630
   };
   var MOUSE_LEFT_BUTTON = 1;
+
   var KeyCode = {
-    ENTER: 13,
-    ESCAPE: 27
+    ENTER: 'Enter',
+    ESCAPE: 'Escape'
   };
 
   window.const = {

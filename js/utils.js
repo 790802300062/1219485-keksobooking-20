@@ -3,8 +3,8 @@
 (function () {
 
   var changeAccessibility = function (controls, state) {
-    controls.forEach(function (item) {
-      item.disabled = state;
+    controls.forEach(function (control) {
+      control.disabled = state;
     });
   };
 
@@ -22,7 +22,7 @@
     });
   };
 
-  var onEscPressClose = function (element) {
+  var onEscClose = function (element) {
     document.addEventListener('keydown', function (evt) {
       if (isEscKey(evt)) {
         element.remove();
@@ -35,7 +35,7 @@
     isEscKey: isEscKey,
     isEnterKey: isEnterKey,
     onClickClose: onClickClose,
-    onEscPressClose: onEscPressClose
+    onEscClose: onEscClose
   };
 })();
 

@@ -54,7 +54,7 @@
     });
   };
 
-  var filterOffers = function (adverts) {
+  var findOffers = function (adverts) {
     var filteredAdvs = [];
     for (var i = 0; i < adverts.length; i++) {
       var item = adverts[i];
@@ -76,17 +76,17 @@
   };
 
   var updatePins = function () {
-    var filteredAdvs = filterOffers(window.pin.offers);
-    window.pin.renderPins(filteredAdvs);
+    var filteredAdvs = findOffers(window.pins.offers);
+    window.pins.render(filteredAdvs);
   };
 
   var lastTimeout = null;
 
   var onFiltersChange = function () {
-    window.pin.removePins();
-    window.card.closeCard();
+    window.pins.remove();
+    window.card.close();
 
-    var filteredAdvs = filterOffers(window.pin.offers);
+    var filteredAdvs = findOffers(window.pins.offers);
 
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
@@ -96,14 +96,13 @@
     }, DEBOUNCE_TIME);
   };
 
-  var activateFilters = function () {
+  var setActive = function () {
     filterForm.addEventListener('change', onFiltersChange);
   };
 
 
   window.filter = {
-    filterOffers: filterOffers,
     updatePins: updatePins,
-    activateFilters: activateFilters
+    setActive: setActive
   };
 })();

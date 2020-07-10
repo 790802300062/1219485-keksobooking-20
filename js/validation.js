@@ -1,6 +1,9 @@
 'use strict';
 (function () {
 
+  var MAX_ROOM_AMOUNT = 100;
+  var MIN_GUESTS_AMOUNT = 0;
+
   var minTypePrice = {
     'palace': 10000,
     'flat': 1000,
@@ -17,7 +20,7 @@
   var checkoutInput = adForm.querySelector('#timeout');
 
   var checkRoomValidity = function () {
-    if (roomNumberInput.value === 100 && capacityInput.valueguestsValue !== 0) {
+    if (roomNumberInput.value === MAX_ROOM_AMOUNT && capacityInput.valueguestsValue !== MIN_GUESTS_AMOUNT) {
       capacityInput.setCustomValidity('Только вариант размещения "Не для гостей"');
       return;
     }
@@ -27,7 +30,7 @@
       return;
     }
 
-    if (capacityInput.value === '0' && roomNumberInput !== '100') {
+    if (+capacityInput.value === MIN_GUESTS_AMOUNT && +roomNumberInput !== MAX_ROOM_AMOUNT) {
       capacityInput.setCustomValidity('Укажите количество гостей!');
       return;
     }

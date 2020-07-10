@@ -3,18 +3,21 @@
 (function () {
 
   var adForm = document.querySelector('.ad-form');
-  var adFormFieldset = adForm.querySelectorAll('fieldset');
+  var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var adFormAddress = adForm.querySelector('#address');
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var main = document.querySelector('main');
   var resetButton = adForm.querySelector('.ad-form__reset');
   var mapPinButton = document.querySelector('.map__pin--main');
 
-  adFormAddress.value = Math.round(mapPinButton.offsetLeft + (window.pin.MainPinSize.WIDTH / 2))
-  + ', ' + Math.round(mapPinButton.offsetTop + (window.pin.MainPinSize.HEIGHT / 2));
+  var setInitialAddress = function () {
+    adFormAddress.value = Math.round(mapPinButton.offsetLeft + (window.pins.MainSize.WIDTH / 2))
+    + ', ' + Math.round(mapPinButton.offsetTop + (window.pins.MainSize.HEIGHT / 2));
+  };
 
+  setInitialAddress();
 
-  var getAddressCoord = function (coord) {
+  var setAddressCoord = function (coord) {
     adFormAddress.value = Math.round(coord.x) + ', ' + Math.round(coord.y);
   };
 
@@ -30,25 +33,25 @@
     adFormSubmit.removeEventListener('click', onFormSubmitClick);
   };
 
-  var enableForm = function () {
+  var setActive = function () {
     if (adForm.classList.contains('ad-form--disabled')) {
       adForm.classList.remove('ad-form--disabled');
-      window.utils.changeAccessibility(adFormFieldset, false);
-      getAddressCoord(window.pin.getMainPinCoords(true));
+      window.utils.changeAccessibility(adFormFieldsets, false);
+      setAddressCoord(window.pins.getCoords(true));
       addFormListener();
     }
   };
 
-  var disableForm = function () {
+  var setInactive = function () {
     if (!adForm.classList.contains('ad-form--disabled')) {
       adForm.classList.add('ad-form--disabled');
-      window.utils.changeAccessibility(adFormFieldset, true);
+      window.utils.changeAccessibility(adFormFieldsets, true);
       removeFormListener();
       adForm.reset();
     }
   };
 
-  disableForm();
+  setInactive();
 
   var createSuccessfulMessage = function () {
     var successTemplate = document.querySelector('#success')
@@ -59,7 +62,7 @@
     main.appendChild(successMessage);
 
     window.utils.onClickClose(successMessage);
-    window.utils.onEscPressClose(successMessage);
+    window.utils.onEscClose(successMessage);
   };
 
   var createErrorMessage = function () {
@@ -71,15 +74,15 @@
     main.appendChild(errorMessage);
 
     window.utils.onClickClose(errorMessage);
-    window.utils.onEscPressClose(errorMessage);
+    window.utils.onEscClose(errorMessage);
   };
 
   var onSuccess = function (evt) {
+    evt.preventDefault();
     window.backend.upload(new FormData(adForm), function () {
-      evt.preventDefault();
       createSuccessfulMessage();
-      disableForm();
-      window.map.disableMap();
+      setInactive();
+      window.map.setDisabled();
     });
   };
 
@@ -89,16 +92,17 @@
   resetButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     if (evt.which === window.const.MOUSE_LEFT_BUTTON) {
-      window.card.closeCard();
-      disableForm();
-      window.map.disableMap();
+      window.card.close();
+      setInactive();
+      window.map.setDisabled();
     }
   });
 
   window.form = {
-    enableForm: enableForm,
-    disableForm: disableForm,
-    getAddressCoord: getAddressCoord
+    setActive: setActive,
+    setAddressCoord: setAddressCoord,
+    createErrorMessage: createErrorMessage,
+    setInitialAddress: setInitialAddress
   };
 
 })();
