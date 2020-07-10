@@ -87,7 +87,8 @@
   pinsContainer.addEventListener('click', onMapPinsContainerClick);
 
   var removePins = function () {
-    var pins = document.querySelectorAll('.map__pin');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    console.log(pins);
     pins.forEach(function (item) {
       item.remove();
     });
