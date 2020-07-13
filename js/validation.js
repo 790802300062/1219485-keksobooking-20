@@ -1,7 +1,7 @@
 'use strict';
 (function () {
 
-  var MAX_ROOM_AMOUNT = 100;
+  var MAX_ROOMS_AMOUNT = 100;
   var MIN_GUESTS_AMOUNT = 0;
 
   var minTypePrice = {
@@ -20,7 +20,7 @@
   var checkoutInput = adForm.querySelector('#timeout');
 
   var checkRoomValidity = function () {
-    if (roomNumberInput.value === MAX_ROOM_AMOUNT && capacityInput.valueguestsValue !== MIN_GUESTS_AMOUNT) {
+    if (roomNumberInput.value === MAX_ROOMS_AMOUNT && capacityInput.valueguestsValue !== MIN_GUESTS_AMOUNT) {
       capacityInput.setCustomValidity('Только вариант размещения "Не для гостей"');
       return;
     }
@@ -30,7 +30,7 @@
       return;
     }
 
-    if (+capacityInput.value === MIN_GUESTS_AMOUNT && +roomNumberInput !== MAX_ROOM_AMOUNT) {
+    if (+capacityInput.value === MIN_GUESTS_AMOUNT && +roomNumberInput !== MAX_ROOMS_AMOUNT) {
       capacityInput.setCustomValidity('Укажите количество гостей!');
       return;
     }

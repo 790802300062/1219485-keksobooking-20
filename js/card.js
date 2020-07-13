@@ -66,7 +66,7 @@
   };
 
   var onCardEscapePress = function (evt) {
-    if (evt.key === window.const.KeyCode.ESCAPE) {
+    if (evt.key === window.const.Key.ESCAPE) {
       closeCard();
     }
   };
@@ -85,10 +85,9 @@
 
   var showCard = function (pinNode) {
     closeCard();
-    var index = window.pins.offers.findIndex(function (pin) {
+    var ad = window.pins.advertisements.find(function (pin) {
       return pinNode.querySelector('img').alt === pin.offer.title;
     });
-    var ad = window.pins.offers[index];
 
     var card = createCard(ad);
     filtersContainer.before(card);

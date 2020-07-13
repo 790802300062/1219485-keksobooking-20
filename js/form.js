@@ -5,7 +5,6 @@
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var adFormAddress = adForm.querySelector('#address');
-  var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var main = document.querySelector('main');
   var resetButton = adForm.querySelector('.ad-form__reset');
   var mapPinButton = document.querySelector('.map__pin--main');
@@ -21,88 +20,77 @@
     adFormAddress.value = Math.round(coord.x) + ', ' + Math.round(coord.y);
   };
 
-  var onFormSubmitClick = function () {
-    window.validation.checkRoomValidity();
-  };
-
-  var addFormListener = function () {
-    adFormSubmit.addEventListener('click', onFormSubmitClick);
-  };
-
-  var removeFormListener = function () {
-    adFormSubmit.removeEventListener('click', onFormSubmitClick);
-  };
-
   var setActive = function () {
-    if (adForm.classList.contains('ad-form--disabled')) {
-      adForm.classList.remove('ad-form--disabled');
-      window.utils.changeAccessibility(adFormFieldsets, false);
-      setAddressCoord(window.pins.getCoords(true));
-      addFormListener();
+    if (!adForm.classList.contains('ad-form--disabled')) {
+      return;
     }
+
+    adForm.classList.remove('ad-form--disabled');
+    window.utils.changeAccessibility(adFormFieldsets, false);
+    setAddressCoord(window.pins.getCoords(true));
+    window.photo.avatarChooser.addEventListener('change', window.photo.onAvatarUpload);
+    window.photo.accomodationPhotoChooser.addEventListener('change', window.photo.onPhotoUpload);
   };
 
   var setInactive = function () {
-    if (!adForm.classList.contains('ad-form--disabled')) {
-      adForm.classList.add('ad-form--disabled');
-      window.utils.changeAccessibility(adFormFieldsets, true);
-      removeFormListener();
-      adForm.reset();
+    if (adForm.classList.contains('ad-form--disabled')) {
+      return;
     }
+
+    window.photo.resetPhotoInputs();
+    adForm.classList.add('ad-form--disabled');
+    window.utils.changeAccessibility(adFormFieldsets, true);
+    adForm.reset();
   };
 
   setInactive();
 
-  var createSuccessfulMessage = function () {
-    var successTemplate = document.querySelector('#success')
+  var createPopup = function (className) {
+    var messageTemplate = document.querySelector('#' + className)
       .content
-      .querySelector('.success');
+      .querySelector('.' + className);
 
-    var successMessage = successTemplate.cloneNode(true);
-    main.appendChild(successMessage);
+    var message = messageTemplate.cloneNode(true);
+    main.appendChild(message);
 
-    window.utils.onClickClose(successMessage);
-    window.utils.onEscClose(successMessage);
+    window.utils.onClickClose(message);
+    window.utils.onEscClose(message);
   };
 
-  var createErrorMessage = function () {
-    var errorTemplate = document.querySelector('#error')
-      .content
-      .querySelector('.error');
-
-    var errorMessage = errorTemplate.cloneNode(true);
-    main.appendChild(errorMessage);
-
-    window.utils.onClickClose(errorMessage);
-    window.utils.onEscClose(errorMessage);
+  var onError = function () {
+    createPopup('error');
   };
 
-  var onSuccess = function (evt) {
+  var onSuccess = function () {
+    createPopup('success');
+    setInactive();
+    window.map.setDisabled();
+  };
+
+  var onFormSubmit = function (evt) {
+    window.validation.checkRoomValidity();
     evt.preventDefault();
-    window.backend.upload(new FormData(adForm), function () {
-      createSuccessfulMessage();
-      setInactive();
-      window.map.setDisabled();
-    });
+    window.backend.upload(new FormData(adForm), onSuccess, onError);
   };
 
-  adForm.addEventListener('submit', onSuccess, createErrorMessage);
+  adForm.addEventListener('submit', onFormSubmit);
 
-
-  resetButton.addEventListener('mousedown', function (evt) {
+  var onFormReset = function (evt) {
     evt.preventDefault();
     if (evt.which === window.const.MOUSE_LEFT_BUTTON) {
       window.card.close();
       setInactive();
       window.map.setDisabled();
     }
-  });
+  };
+
+  resetButton.addEventListener('mousedown', onFormReset);
 
   window.form = {
     setActive: setActive,
     setAddressCoord: setAddressCoord,
-    createErrorMessage: createErrorMessage,
-    setInitialAddress: setInitialAddress
+    setInitialAddress: setInitialAddress,
+    onError: onError
   };
 
 })();

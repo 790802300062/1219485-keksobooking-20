@@ -10,7 +10,7 @@
   };
   var MOUSE_LEFT_BUTTON = 1;
 
-  var KeyCode = {
+  var Key = {
     ENTER: 'Enter',
     ESCAPE: 'Escape'
   };
@@ -18,6 +18,6 @@
   window.const = {
     MapSize: MapSize,
     MOUSE_LEFT_BUTTON: MOUSE_LEFT_BUTTON,
-    KeyCode: KeyCode
+    Key: Key
   };
 })();
