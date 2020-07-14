@@ -21,9 +21,14 @@
   };
 
 
-  var onClickClose = function (element) {
-    document.addEventListener('click', function () {
-      element.remove();
+  var onClickClose = function (message, className) {
+    document.addEventListener('click', function (evt) {
+      if ((evt.target === ('.' + className + '__message')) &&
+         (evt.which !== window.const.MOUSE_LEFT_BUTTON)) {
+        return;
+      }
+
+      message.remove();
     });
   };
 

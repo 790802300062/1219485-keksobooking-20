@@ -6,8 +6,8 @@
 
   var adForm = document.querySelector('.ad-form');
   var mapFieldsets = adForm.querySelectorAll('fieldset');
-  var mapFiltersElement = document.querySelector('.map__filters');
-  var mapSelects = mapFiltersElement.querySelectorAll('select');
+  var mapFilter = document.querySelector('.map__filters');
+  var mapSelects = mapFilter.querySelectorAll('select');
 
   var setEnabled = function () {
     window.pins.loadAds();

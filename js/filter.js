@@ -4,10 +4,10 @@
   var PINS_MAX_AMOUNT = 5;
 
   var filterForm = document.querySelector('.map__filters');
-  var housingType = filterForm.querySelector('#housing-type');
-  var housingPrice = filterForm.querySelector('#housing-price');
-  var housingRooms = filterForm.querySelector('#housing-rooms');
-  var housingGuests = filterForm.querySelector('#housing-guests');
+  var accomodationType = filterForm.querySelector('#housing-type');
+  var accomodationPrice = filterForm.querySelector('#housing-price');
+  var accomodationRooms = filterForm.querySelector('#housing-rooms');
+  var accomodationGuests = filterForm.querySelector('#housing-guests');
 
   var AccomodationPrice = {
     MIDDLE: 'middle',
@@ -20,17 +20,17 @@
   };
 
   var filterByAccomodationType = function (item) {
-    return item.offer.type === housingType.value || housingType.value === DEFAULT_FILTER_VALUE;
+    return item.offer.type === accomodationType.value || accomodationType.value === DEFAULT_FILTER_VALUE;
   };
 
   var filterByAccomodationPrice = function (item) {
-    if (housingPrice.value === AccomodationPrice.LOW) {
+    if (accomodationPrice.value === AccomodationPrice.LOW) {
       return +item.offer.price < Price.MIDDLE;
     }
-    if (housingPrice.value === AccomodationPrice.MIDDLE) {
+    if (accomodationPrice.value === AccomodationPrice.MIDDLE) {
       return +item.offer.price >= Price.MIDDLE && +item.offer.price < Price.HIGH;
     }
-    if (housingPrice.value === AccomodationPrice.HIGH) {
+    if (accomodationPrice.value === AccomodationPrice.HIGH) {
       return +item.offer.price >= Price.HIGH;
     }
 
@@ -38,11 +38,11 @@
   };
 
   var filterByRoomsAmount = function (item) {
-    return +housingRooms.value === item.offer.rooms || housingRooms.value === DEFAULT_FILTER_VALUE;
+    return +accomodationRooms.value === item.offer.rooms || accomodationRooms.value === DEFAULT_FILTER_VALUE;
   };
 
   var filterByGuestsAmount = function (item) {
-    return +housingGuests.value === item.offer.guests || housingGuests.value === DEFAULT_FILTER_VALUE;
+    return +accomodationGuests.value === item.offer.guests || accomodationGuests.value === DEFAULT_FILTER_VALUE;
   };
 
   var filterByFeatures = function (item) {

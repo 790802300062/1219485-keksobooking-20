@@ -53,8 +53,8 @@
     var message = messageTemplate.cloneNode(true);
     main.appendChild(message);
 
-    window.utils.onClickClose(message);
-    window.utils.onEscClose(message);
+    window.utils.onClickClose(message, className);
+    window.utils.onEscClose(message, className);
   };
 
   var onError = function () {

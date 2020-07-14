@@ -18,7 +18,6 @@
     START_LEFT: 570
   };
 
-  var fragment = document.createDocumentFragment();
   var mainPin = document.querySelector('.map__pin--main');
   var pinsContainer = document.querySelector('.map__pins');
   var advertisements = [];
@@ -47,6 +46,7 @@
     }
   };
 
+  var fragment = document.createDocumentFragment();
 
   var createPin = function (adv) {
     var mapPin = pinTemplate.cloneNode(true);

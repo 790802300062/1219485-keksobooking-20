@@ -9,7 +9,7 @@
   var accomodationPhotoChooser = document.querySelector('#images');
   var accomodationPhotoPreviewBlock = document.querySelector('.ad-form__photo');
 
-  var loader = function (fileChooser, filePreview, callback) {
+  var loader = function (fileChooser, filePreview, cb) {
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -21,8 +21,8 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
-        if (callback) {
-          filePreview = callback();
+        if (cb) {
+          filePreview = cb();
         }
         filePreview.src = reader.result;
       });
