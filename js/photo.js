@@ -5,11 +5,19 @@
 
   var avatarChooser = document.querySelector('#avatar');
   var avatarPreviewBlock = document.querySelector('.ad-form-header__preview img');
-  var avatarPreviewDefaultSrc = avatarPreviewBlock.src;
-  var accomodationPhotoChooser = document.querySelector('#images');
-  var accomodationPhotoPreviewBlock = document.querySelector('.ad-form__photo');
+  var accommodationPhotoChooser = document.querySelector('#images');
+  var accommodationPhotoPreviewBlock = document.querySelector('.ad-form__photo');
 
-  var loader = function (fileChooser, filePreview, cb) {
+  var avatarPreviewDefaultSrc = avatarPreviewBlock.src;
+
+  var createImgElement = function () {
+    var photoItem = document.createElement('img');
+    photoItem.width = window.const.AvatarPhotoSize.WIDTH;
+    photoItem.height = window.const.AvatarPhotoSize.HEIGHT;
+    return photoItem;
+  };
+
+  var loadFile = function (fileChooser, filePreview, cb) {
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -19,10 +27,10 @@
 
     if (matches) {
       var reader = new FileReader();
-
       reader.addEventListener('load', function () {
         if (cb) {
           filePreview = cb();
+          accommodationPhotoPreviewBlock.appendChild(filePreview);
         }
         filePreview.src = reader.result;
       });
@@ -31,32 +39,24 @@
     }
   };
 
-  var createImgElement = function () {
-    var photoItem = document.createElement('img');
-    photoItem.width = 70;
-    photoItem.height = 70;
-    accomodationPhotoPreviewBlock.appendChild(photoItem);
-    return photoItem;
-  };
-
   var resetPhotoInputs = function () {
     avatarPreviewBlock.src = avatarPreviewDefaultSrc;
-    accomodationPhotoPreviewBlock.innerHTML = '';
+    accommodationPhotoPreviewBlock.innerHTML = '';
   };
 
   var onAvatarUpload = function () {
-    loader(avatarChooser, avatarPreviewBlock);
+    loadFile(avatarChooser, avatarPreviewBlock);
   };
 
   var onPhotoUpload = function () {
-    loader(accomodationPhotoChooser, accomodationPhotoChooser, createImgElement);
+    loadFile(accommodationPhotoChooser, accommodationPhotoChooser, createImgElement);
   };
 
   window.photo = {
     onAvatarUpload: onAvatarUpload,
-    onPhotoUpload: onPhotoUpload,
+    onUpload: onPhotoUpload,
     avatarChooser: avatarChooser,
-    accomodationPhotoChooser: accomodationPhotoChooser,
-    resetPhotoInputs: resetPhotoInputs
+    accomodationPicChooser: accommodationPhotoChooser,
+    resetInputs: resetPhotoInputs
   };
 })();

@@ -4,52 +4,53 @@
   var PINS_MAX_AMOUNT = 5;
 
   var filterForm = document.querySelector('.map__filters');
-  var accomodationType = filterForm.querySelector('#housing-type');
-  var accomodationPrice = filterForm.querySelector('#housing-price');
-  var accomodationRooms = filterForm.querySelector('#housing-rooms');
-  var accomodationGuests = filterForm.querySelector('#housing-guests');
+  var accommodationType = filterForm.querySelector('#housing-type');
+  var accommodationPrice = filterForm.querySelector('#housing-price');
+  var accommodationRooms = filterForm.querySelector('#housing-rooms');
+  var accommodationGuests = filterForm.querySelector('#housing-guests');
 
-  var AccomodationPrice = {
+  var AccommodationPrice = {
     MIDDLE: 'middle',
     LOW: 'low',
     HIGH: 'high'
   };
+
   var Price = {
     MIDDLE: 10000,
     HIGH: 50000
   };
 
-  var filterByAccomodationType = function (item) {
-    return item.offer.type === accomodationType.value || accomodationType.value === DEFAULT_FILTER_VALUE;
+  var filterByAccommodationType = function (adv) {
+    return adv.offer.type === accommodationType.value || accommodationType.value === DEFAULT_FILTER_VALUE;
   };
 
-  var filterByAccomodationPrice = function (item) {
-    if (accomodationPrice.value === AccomodationPrice.LOW) {
-      return +item.offer.price < Price.MIDDLE;
+  var filterByAccommodationPrice = function (adv) {
+    if (accommodationPrice.value === AccommodationPrice.LOW) {
+      return +adv.offer.price < Price.MIDDLE;
     }
-    if (accomodationPrice.value === AccomodationPrice.MIDDLE) {
-      return +item.offer.price >= Price.MIDDLE && +item.offer.price < Price.HIGH;
+    if (accommodationPrice.value === AccommodationPrice.MIDDLE) {
+      return +adv.offer.price >= Price.MIDDLE && +adv.offer.price < Price.HIGH;
     }
-    if (accomodationPrice.value === AccomodationPrice.HIGH) {
-      return +item.offer.price >= Price.HIGH;
+    if (accommodationPrice.value === AccommodationPrice.HIGH) {
+      return +adv.offer.price >= Price.HIGH;
     }
 
     return true;
   };
 
-  var filterByRoomsAmount = function (item) {
-    return +accomodationRooms.value === item.offer.rooms || accomodationRooms.value === DEFAULT_FILTER_VALUE;
+  var filterByRoomsAmount = function (adv) {
+    return +accommodationRooms.value === adv.offer.rooms || accommodationRooms.value === DEFAULT_FILTER_VALUE;
   };
 
-  var filterByGuestsAmount = function (item) {
-    return +accomodationGuests.value === item.offer.guests || accomodationGuests.value === DEFAULT_FILTER_VALUE;
+  var filterByGuestsAmount = function (adv) {
+    return +accommodationGuests.value === adv.offer.guests || accommodationGuests.value === DEFAULT_FILTER_VALUE;
   };
 
-  var filterByFeatures = function (item) {
+  var filterByFeatures = function (adv) {
     var chosenFeatures = filterForm.querySelectorAll('input:checked');
 
     return Array.from(chosenFeatures).every(function (feature) {
-      return item.offer.features.includes(feature.value);
+      return adv.offer.features.includes(feature.value);
     });
   };
 
@@ -57,8 +58,8 @@
     var filteredAdvs = [];
     for (var i = 0; i < adverts.length; i++) {
       var advert = adverts[i];
-      if (filterByAccomodationType(advert) &&
-          filterByAccomodationPrice(advert) &&
+      if (filterByAccommodationType(advert) &&
+          filterByAccommodationPrice(advert) &&
           filterByRoomsAmount(advert) &&
           filterByGuestsAmount(advert) &&
           filterByFeatures(advert)

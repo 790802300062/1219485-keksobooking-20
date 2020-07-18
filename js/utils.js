@@ -20,24 +20,31 @@
     return key === window.const.Key.ENTER;
   };
 
-
-  var onClickClose = function (message, className) {
-    document.addEventListener('click', function (evt) {
-      if ((evt.target === ('.' + className + '__message')) &&
-         (evt.which !== window.const.MOUSE_LEFT_BUTTON)) {
+  var addClickListener = function (popup, className) {
+    var onPopupClick = function (evt) {
+      if ((evt.target.classList.contains(className + '__message'))) {
         return;
       }
 
-      message.remove();
-    });
+      popup.remove();
+      document.removeEventListener('click', onPopupClick);
+    };
+
+    document.addEventListener('click', onPopupClick);
   };
 
-  var onEscClose = function (element) {
-    document.addEventListener('keydown', function (evt) {
+  var addEscListener = function (popup) {
+    var onPopupEscPress = function (evt) {
+      popup.tabindex = '1';
+      popup.focus();
+
       if (isEscKey(evt.key)) {
-        element.remove();
+        popup.remove();
+        document.removeEventListener('keydown', onPopupEscPress);
       }
-    });
+    };
+
+    document.addEventListener('keydown', onPopupEscPress);
   };
 
   var debounce = function (onTimeout) {
@@ -49,13 +56,31 @@
     }, DEBOUNCE_TIME);
   };
 
+  var createPhoto = function (photo) {
+    var photoElement = document.createElement('img');
+    photoElement.src = photo;
+    photoElement.width = window.const.CardPhotoSize.WIDTH;
+    photoElement.height = window.const.CardPhotoSize.HEIGHT;
+
+    return photoElement;
+  };
+
+  var createFeature = function (feature) {
+    var featureElement = document.createElement('li');
+    featureElement.classList.add('popup__feature', 'popup__feature--' + feature);
+
+    return featureElement;
+  };
+
   window.utils = {
     changeAccessibility: changeAccessibility,
     debounce: debounce,
     isEscKey: isEscKey,
     isEnterKey: isEnterKey,
-    onClickClose: onClickClose,
-    onEscClose: onEscClose
+    addClickListener: addClickListener,
+    addEscListener: addEscListener,
+    createPhoto: createPhoto,
+    createFeature: createFeature
   };
 })();
 

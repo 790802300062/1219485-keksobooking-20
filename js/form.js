@@ -5,13 +5,13 @@
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var adFormAddress = adForm.querySelector('#address');
-  var main = document.querySelector('main');
+  var mainElement = document.querySelector('main');
   var resetButton = adForm.querySelector('.ad-form__reset');
   var mapPinButton = document.querySelector('.map__pin--main');
 
   var setInitialAddress = function () {
-    adFormAddress.value = Math.round(mapPinButton.offsetLeft + (window.pins.MainSize.WIDTH / 2))
-    + ', ' + Math.round(mapPinButton.offsetTop + (window.pins.MainSize.HEIGHT / 2));
+    adFormAddress.value = Math.round(mapPinButton.offsetLeft + (window.pins.MainSize.WIDTH / window.const.HALF_SIZE))
+    + ', ' + Math.round(mapPinButton.offsetTop + (window.pins.MainSize.HEIGHT / window.const.HALF_SIZE));
   };
 
   setInitialAddress();
@@ -29,7 +29,8 @@
     window.utils.changeAccessibility(adFormFieldsets, false);
     setAddressCoord(window.pins.getCoords(true));
     window.photo.avatarChooser.addEventListener('change', window.photo.onAvatarUpload);
-    window.photo.accomodationPhotoChooser.addEventListener('change', window.photo.onPhotoUpload);
+    window.photo.accomodationPicChooser.addEventListener('change', window.photo.onUpload);
+
   };
 
   var setInactive = function () {
@@ -37,7 +38,7 @@
       return;
     }
 
-    window.photo.resetPhotoInputs();
+    window.photo.resetInputs();
     adForm.classList.add('ad-form--disabled');
     window.utils.changeAccessibility(adFormFieldsets, true);
     adForm.reset();
@@ -46,15 +47,15 @@
   setInactive();
 
   var createPopup = function (className) {
-    var messageTemplate = document.querySelector('#' + className)
+    var popupTemplate = document.querySelector('#' + className)
       .content
       .querySelector('.' + className);
 
-    var message = messageTemplate.cloneNode(true);
-    main.appendChild(message);
+    var popup = popupTemplate.cloneNode(true);
+    mainElement.appendChild(popup);
 
-    window.utils.onClickClose(message, className);
-    window.utils.onEscClose(message, className);
+    window.utils.addClickListener(popup, className);
+    window.utils.addEscListener(popup);
   };
 
   var onError = function () {
@@ -68,8 +69,8 @@
   };
 
   var onFormSubmit = function (evt) {
-    window.validation.checkRoomValidity();
     evt.preventDefault();
+    window.validation.checkRoomValidity();
     window.backend.upload(new FormData(adForm), onSuccess, onError);
   };
 
@@ -77,11 +78,13 @@
 
   var onFormReset = function (evt) {
     evt.preventDefault();
-    if (evt.which === window.const.MOUSE_LEFT_BUTTON) {
-      window.card.close();
-      setInactive();
-      window.map.setDisabled();
+    if (!evt.which === window.const.MOUSE_LEFT_BUTTON) {
+      return;
     }
+
+    window.card.close();
+    setInactive();
+    window.map.setDisabled();
   };
 
   resetButton.addEventListener('mousedown', onFormReset);
@@ -92,5 +95,4 @@
     setInitialAddress: setInitialAddress,
     onError: onError
   };
-
 })();

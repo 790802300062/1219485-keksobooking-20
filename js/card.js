@@ -34,9 +34,8 @@
     if (adv.offer.features.length) {
       newCard.querySelector('.popup__features').innerHTML = '';
       adv.offer.features.forEach(function (feature) {
-        var featureItem = document.createElement('li');
-        featureItem.classList.add('popup__feature', 'popup__feature--' + feature);
-        newCard.querySelector('.popup__features').append(featureItem);
+        var featureElement = window.utils.createFeature(feature);
+        newCard.querySelector('.popup__features').append(featureElement);
       });
     } else {
       newCard.querySelector('.popup__features').remove();
@@ -45,11 +44,8 @@
     if (adv.offer.photos.length) {
       newCard.querySelector('.popup__photos').innerHTML = '';
       adv.offer.photos.forEach(function (photo) {
-        var newPhoto = document.createElement('img');
-        newPhoto.src = photo;
-        newPhoto.width = 45;
-        newPhoto.height = 40;
-        newCard.querySelector('.popup__photos').append(newPhoto);
+        var photoElement = window.utils.createPhoto(photo);
+        newCard.querySelector('.popup__photos').append(photoElement);
       });
     } else {
       newCard.querySelector('.popup__photos').remove();
@@ -77,10 +73,12 @@
 
   var closeCard = function (popup) {
     popup = document.querySelector('.popup');
-    if (popup) {
-      closePopup(popup);
-      document.removeEventListener('keydown', onCardEscapePress);
+    if (!popup) {
+      return;
     }
+
+    closePopup(popup);
+    document.removeEventListener('keydown', onCardEscapePress);
   };
 
   var showCard = function (pinNode) {
