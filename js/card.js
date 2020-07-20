@@ -61,15 +61,6 @@
     return newCard;
   };
 
-  var onCloseButtonClick = function (evt) {
-    if ((evt.key === window.const.key.ENTER) ||
-         evt.which === window.const.MOUSE_LEFT_BUTTON) {
-      closeCard();
-      var mapPinActive = document.querySelector('.map__pin--active');
-      mapPinActive.classList.remove('map__pin--active');
-    }
-  };
-
   var onCardEscapePress = function (evt) {
     if (evt.key === window.const.Key.ESCAPE) {
       closeCard();
