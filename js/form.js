@@ -26,7 +26,7 @@
     adFormAddress.value = Math.round(coord.x) + ', ' + Math.round(coord.y);
   };
 
-  var clearInputClass = function (inputs) {
+  var errorHighlight = function (inputs) {
     inputs.forEach(function (input) {
       if (input.classList.contains('error-form')) {
         input.classList.remove('error-form');
@@ -51,7 +51,7 @@
       return;
     }
 
-    clearInputClass(formInputs);
+    errorHighlight(formInputs);
     window.photo.resetInputs();
     adForm.classList.add('ad-form--disabled');
     window.utils.changeAccessibility(adFormFieldsets, true);
@@ -85,6 +85,7 @@
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
+    window.validation.checkFormFields(formInputs);
     window.validation.checkRoomValidity();
     window.card.close();
     window.backend.upload(new FormData(adForm), onSuccess, onError);

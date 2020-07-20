@@ -20,11 +20,11 @@
     xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('load', function () {
-      if (!xhr.status === StatusCode.OK) {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      if (xhr.status === StatusCode.OK) {
+        return onSuccess(xhr.response);
       }
 
-      return onSuccess(xhr.response);
+      onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
     });
 
     xhr.addEventListener('error', function () {

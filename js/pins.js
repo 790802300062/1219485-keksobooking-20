@@ -30,6 +30,12 @@
                     .querySelector('.map__pin');
 
   var onMapPinsContainerClick = function (evt) {
+    var mapPinActive = document.querySelector('.map__pin--active');
+
+    if (mapPinActive) {
+      mapPinActive.classList.remove('map__pin--active');
+    }
+
     var currentTarget = evt.target;
     var isMainPin = currentTarget.classList.contains('map__pin--main') ||
                     currentTarget.parentNode.classList.contains('map__pin--main');
@@ -39,11 +45,13 @@
     }
 
     if (currentTarget.classList.contains('map__pin')) {
+      currentTarget.classList.add('map__pin--active');
       window.card.show(currentTarget);
       return;
     }
 
     if (currentTarget.parentNode.classList.contains('map__pin')) {
+      currentTarget.parentNode.classList.add('map__pin--active');
       window.card.show(currentTarget.parentNode);
     }
   };

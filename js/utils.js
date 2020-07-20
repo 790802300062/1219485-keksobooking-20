@@ -3,6 +3,7 @@
 (function () {
 
   var DEBOUNCE_TIME = 500;
+  var TABINDEX = '1';
 
   var lastTimeout = null;
 
@@ -35,7 +36,7 @@
 
   var addEscListener = function (popup) {
     var onPopupEscPress = function (evt) {
-      popup.tabindex = '1';
+      popup.tabindex = TABINDEX;
       popup.focus();
 
       if (isEscKey(evt.key)) {

@@ -20,6 +20,7 @@
   var checkoutInput = adForm.querySelector('#timeout');
   var formInputs = adForm.querySelectorAll('input, select');
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
+  var titleInput = adForm.querySelector('#title');
 
   var checkRoomValidity = function () {
     if (roomNumberInput.value === MAX_ROOMS_AMOUNT && capacityInput.valueguestsValue !== MIN_GUESTS_AMOUNT) {
@@ -44,7 +45,10 @@
     inputs.forEach(function (input) {
       if (!input.validity.valid) {
         input.classList.add('error-form');
+        return;
       }
+
+      input.classList.remove('error-form');
     });
   };
 
