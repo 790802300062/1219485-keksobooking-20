@@ -24,7 +24,7 @@
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
 
-      onSuccess(xhr.response);
+      return onSuccess(xhr.response);
     });
 
     xhr.addEventListener('error', function () {
