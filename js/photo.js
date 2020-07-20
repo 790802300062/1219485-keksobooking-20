@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var avatarChooser = document.querySelector('#avatar');
@@ -25,18 +26,21 @@
       return fileName.endsWith(it);
     });
 
-    if (matches) {
-      var reader = new FileReader();
-      reader.addEventListener('load', function () {
-        if (cb) {
-          filePreview = cb();
-          accommodationPhotoPreviewBlock.appendChild(filePreview);
-        }
-        filePreview.src = reader.result;
-      });
-
-      reader.readAsDataURL(file);
+    if (!matches) {
+      return;
     }
+
+    var reader = new FileReader();
+    reader.addEventListener('load', function () {
+      if (cb) {
+        filePreview = cb();
+        accommodationPhotoPreviewBlock.appendChild(filePreview);
+      }
+
+      filePreview.src = reader.result;
+    });
+
+    reader.readAsDataURL(file);
   };
 
   var resetPhotoInputs = function () {

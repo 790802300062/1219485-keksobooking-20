@@ -5,10 +5,11 @@
   var RESPONSE_TYPE = 'json';
   var TIMEOUT = 10000;
 
-  var ServerURL = {
+  var ServerUrl = {
     GET: 'https://javascript.pages.academy/keksobooking/data',
     POST: 'https://javascript.pages.academy/keksobooking'
   };
+
   var StatusCode = {
     OK: 200
   };
@@ -19,11 +20,11 @@
     xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
+      if (!xhr.status === StatusCode.OK) {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
+
+      onSuccess(xhr.response);
     });
 
     xhr.addEventListener('error', function () {
@@ -40,15 +41,14 @@
   var load = function (onSuccess, onError) {
     var xhr = createXHR(onSuccess, onError);
 
-    xhr.open('GET', ServerURL.GET);
+    xhr.open('GET', ServerUrl.GET);
     xhr.send();
   };
-
 
   var upload = function (data, onSuccess, onError) {
     var xhr = createXHR(onSuccess, onError);
 
-    xhr.open('POST', ServerURL.POST);
+    xhr.open('POST', ServerUrl.POST);
     xhr.send(data);
   };
 

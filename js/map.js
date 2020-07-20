@@ -3,7 +3,6 @@
 (function () {
 
   var map = document.querySelector('.map');
-
   var adForm = document.querySelector('.ad-form');
   var mapFieldsets = adForm.querySelectorAll('fieldset');
   var mapFilter = document.querySelector('.map__filters');

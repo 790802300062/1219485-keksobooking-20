@@ -71,8 +71,8 @@
     map.removeChild(popup);
   };
 
-  var closeCard = function (popup) {
-    popup = document.querySelector('.popup');
+  var closeCard = function () {
+    var popup = document.querySelector('.popup');
     if (!popup) {
       return;
     }

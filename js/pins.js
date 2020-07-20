@@ -27,7 +27,7 @@
 
   var pinTemplate = document.querySelector('#pin')
                     .content
-            .querySelector('.map__pin');
+                    .querySelector('.map__pin');
 
   var onMapPinsContainerClick = function (evt) {
     var currentTarget = evt.target;
@@ -40,7 +40,6 @@
 
     if (currentTarget.classList.contains('map__pin')) {
       window.card.show(currentTarget);
-
       return;
     }
 
@@ -150,7 +149,6 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };

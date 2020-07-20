@@ -1,27 +1,14 @@
 'use strict';
 (function () {
 
-  var DEFAULT_ERROR_MESSAGE = 'Неверно заполнено поле';
+  var MAX_ROOMS_AMOUNT = 100;
+  var MIN_GUESTS_AMOUNT = 0;
 
   var minTypePrice = {
     'palace': 10000,
     'flat': 1000,
     'house': 5000,
     'bungalo': 0
-  };
-
-  var roomsToGuests = {
-    '1': ['1'],
-    '2': ['1', '2'],
-    '3': ['1', '2', '3'],
-    '100': ['0']
-  };
-
-  var roomsAmountErrorMessage = {
-    '1': 'Можно выбрать только 1-го гостя',
-    '2': 'Можно выбрать 1-го или 2-х гостей',
-    '3': 'Можно выбрать 1-го, 2-х или 3-х гостей',
-    '100': 'Не для гостей'
   };
 
   var adForm = document.querySelector('.ad-form');
@@ -31,17 +18,39 @@
   var accomodationMinPrice = document.querySelector('#price');
   var checkinInput = adForm.querySelector('#timein');
   var checkoutInput = adForm.querySelector('#timeout');
+  var formInputs = adForm.querySelectorAll('input, select');
+  var adFormSubmit = adForm.querySelector('.ad-form__submit');
 
   var checkRoomValidity = function () {
-    var validGuestsAmount = roomsToGuests[roomNumberInput.value];
-    var errorMessage = '';
-
-    if (validGuestsAmount.indexOf(capacityInput.value) === -1) {
-      errorMessage = roomsAmountErrorMessage[roomNumberInput.value] || DEFAULT_ERROR_MESSAGE;
+    if (roomNumberInput.value === MAX_ROOMS_AMOUNT && capacityInput.valueguestsValue !== MIN_GUESTS_AMOUNT) {
+      capacityInput.setCustomValidity('Только вариант размещения "Не для гостей"');
+      return;
     }
 
-    capacityInput.setCustomValidity(errorMessage);
+    if (+capacityInput.value > +roomNumberInput.value) {
+      capacityInput.setCustomValidity('Слишком много гостей для этого количества комнат!');
+      return;
+    }
+
+    if (+capacityInput.value === MIN_GUESTS_AMOUNT && +roomNumberInput !== MAX_ROOMS_AMOUNT) {
+      capacityInput.setCustomValidity('Укажите количество гостей!');
+      return;
+    }
+
+    capacityInput.setCustomValidity('');
   };
+
+  var checkFormFields = function (inputs) {
+    inputs.forEach(function (input) {
+      if (!input.validity.valid) {
+        input.classList.add('error-form');
+      }
+    });
+  };
+
+  adFormSubmit.addEventListener('click', function () {
+    checkFormFields(formInputs);
+  });
 
   var onRoomsAmountChange = function () {
     checkRoomValidity();
@@ -75,6 +84,8 @@
   });
 
   window.validation = {
-    checkRoomValidity: checkRoomValidity
+    checkRoomValidity: checkRoomValidity,
+    setTypePrice: setTypePrice,
+    checkFormFields: checkFormFields
   };
 })();

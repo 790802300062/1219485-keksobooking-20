@@ -51,6 +51,7 @@
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
+
     lastTimeout = window.setTimeout(function () {
       onTimeout();
     }, DEBOUNCE_TIME);

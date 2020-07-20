@@ -1,5 +1,7 @@
 'use strict';
+
 (function () {
+
   var DEFAULT_FILTER_VALUE = 'any';
   var PINS_MAX_AMOUNT = 5;
 
@@ -83,13 +85,10 @@
   var onFiltersChange = function () {
     window.pins.remove();
     window.card.close();
-
     window.utils.debounce(updatePins);
-
   };
 
   filterForm.addEventListener('change', onFiltersChange);
-
 
   window.filter = {
     updatePins: updatePins
