@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
 
   var MAX_ROOMS_AMOUNT = 100;

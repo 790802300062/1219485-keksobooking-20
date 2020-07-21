@@ -26,7 +26,7 @@
     adFormAddress.value = Math.round(coord.x) + ', ' + Math.round(coord.y);
   };
 
-  var errorHighlight = function (inputs) {
+  var removeHighlight = function (inputs) {
     inputs.forEach(function (input) {
       if (input.classList.contains('error-form')) {
         input.classList.remove('error-form');
@@ -51,7 +51,7 @@
       return;
     }
 
-    errorHighlight(formInputs);
+    removeHighlight(formInputs);
     window.photo.resetInputs();
     adForm.classList.add('ad-form--disabled');
     window.utils.changeAccessibility(adFormFieldsets, true);
