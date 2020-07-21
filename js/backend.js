@@ -2,9 +2,10 @@
 
 (function () {
 
-  var TYPE_JSON = 'json';
+  var RESPONSE_TYPE = 'json';
+  var TIMEOUT = 10000;
 
-  var ServerURL = {
+  var ServerUrl = {
     GET: 'https://javascript.pages.academy/keksobooking/data',
     POST: 'https://javascript.pages.academy/keksobooking'
   };
@@ -12,53 +13,44 @@
   var StatusCode = {
     OK: 200
   };
-  var Timeout = 10000;
 
-  var load = function (onSuccess/*  , onError*/) {
+  var createXHR = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = TYPE_JSON;
+    xhr.responseType = RESPONSE_TYPE;
+    xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
+        return;
       }
+
+      onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
     });
 
-
     xhr.addEventListener('error', function () {
-      window.form.createErrorMessage();
+      onError('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      window.form.createErrorMessage();
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = Timeout;
-    xhr.open('GET', ServerURL.GET);
+    return xhr;
+  };
+
+  var load = function (onSuccess, onError) {
+    var xhr = createXHR(onSuccess, onError);
+
+    xhr.open('GET', ServerUrl.GET);
     xhr.send();
   };
 
-  var upload = function (form, onSuccess/*  , onError*/) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = TYPE_JSON;
+  var upload = function (data, onSuccess, onError) {
+    var xhr = createXHR(onSuccess, onError);
 
-    xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      window.form.createErrorMessage();
-    });
-
-    xhr.addEventListener('timeout', function () {
-      window.form.createErrorMessage();
-    });
-
-    xhr.timeout = Timeout;
-    xhr.open('POST', ServerURL.POST);
-    xhr.send(form);
+    xhr.open('POST', ServerUrl.POST);
+    xhr.send(data);
   };
 
   window.backend = {

@@ -1,7 +1,8 @@
 'use strict';
+
 (function () {
 
-  var MAX_ROOM_AMOUNT = 100;
+  var MAX_ROOMS_AMOUNT = 100;
   var MIN_GUESTS_AMOUNT = 0;
 
   var minTypePrice = {
@@ -18,9 +19,11 @@
   var accomodationMinPrice = document.querySelector('#price');
   var checkinInput = adForm.querySelector('#timein');
   var checkoutInput = adForm.querySelector('#timeout');
+  var formInputs = adForm.querySelectorAll('input, select');
+  var adFormSubmit = adForm.querySelector('.ad-form__submit');
 
   var checkRoomValidity = function () {
-    if (roomNumberInput.value === MAX_ROOM_AMOUNT && capacityInput.valueguestsValue !== MIN_GUESTS_AMOUNT) {
+    if (roomNumberInput.value === MAX_ROOMS_AMOUNT && capacityInput.valueguestsValue !== MIN_GUESTS_AMOUNT) {
       capacityInput.setCustomValidity('Только вариант размещения "Не для гостей"');
       return;
     }
@@ -30,13 +33,39 @@
       return;
     }
 
-    if (+capacityInput.value === MIN_GUESTS_AMOUNT && +roomNumberInput !== MAX_ROOM_AMOUNT) {
+    if (+capacityInput.value === MIN_GUESTS_AMOUNT && +roomNumberInput !== MAX_ROOMS_AMOUNT) {
       capacityInput.setCustomValidity('Укажите количество гостей!');
       return;
     }
 
     capacityInput.setCustomValidity('');
   };
+
+  var checkFormFields = function (inputs) {
+    inputs.forEach(function (input) {
+      if (!input.validity.valid) {
+        input.classList.add('error-form');
+        return;
+      }
+
+      input.classList.remove('error-form');
+    });
+  };
+
+  adFormSubmit.addEventListener('click', function () {
+    checkFormFields(formInputs);
+  });
+
+  var onRoomsAmountChange = function () {
+    checkRoomValidity();
+  };
+
+  var onGuestsAmountChange = function () {
+    checkRoomValidity();
+  };
+
+  capacityInput.addEventListener('change', onGuestsAmountChange);
+  roomNumberInput.addEventListener('change', onRoomsAmountChange);
 
   var setTypePrice = function () {
     var typeValue = minTypePrice[accomodationTypeInput.value];
@@ -59,6 +88,8 @@
   });
 
   window.validation = {
-    checkRoomValidity: checkRoomValidity
+    checkRoomValidity: checkRoomValidity,
+    setTypePrice: setTypePrice,
+    checkFormFields: checkFormFields
   };
 })();
