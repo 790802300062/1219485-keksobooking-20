@@ -95,10 +95,6 @@
 
   var onFormReset = function (evt) {
     evt.preventDefault();
-    if (!evt.which === window.const.MOUSE_LEFT_BUTTON) {
-      return;
-    }
-
     window.card.close();
     setInactive();
     window.map.setDisabled();
